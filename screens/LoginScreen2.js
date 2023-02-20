@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Button } from "react-native";
 import firebase from "firebase/app";
 import "firebase/auth";
 import * as Google from "expo-google-app-auth";
+import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 
 export default function LoginScreen2() {
   const [user, setUser] = useState(null);
@@ -14,6 +15,10 @@ export default function LoginScreen2() {
 
     return unsubscribe;
   }, []);
+
+  const redirectUri = makeRedirectUri({
+    useProxy: true,
+  });
 
   const handleGoogleSignIn = async () => {
     try {

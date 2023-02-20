@@ -14,7 +14,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Login" component={LoginScreen2} />
         <Stack.Screen name="Home" component={HomeScreen} />
         {/* Add other screens here */}
       </Stack.Navigator>

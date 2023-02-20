@@ -1,53 +1,71 @@
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text, Button } from "react-native";
 import firebase from "firebase/app";
 import "firebase/auth";
+import * as Google from "expo-google-app-auth";
+import { makeRedirectUri } from "expo-auth-session";
+import { useNavigation } from "@react-navigation/native";
 
-const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function LoginScreen() {
+  const [user, setUser] = useState(null);
+  const navigation = useNavigation();
 
-  var provider = new firebase.auth.GoogleAuthProvider();
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+      if (user) {
+        navigation.navigate("Home");
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   const handleGoogleSignIn = async () => {
     try {
-      await firebase.auth().signInWithRedirect(provider);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      const result = await Google.logInAsync({
+        iosClientId:
+          "767171017028-j0d27kq4l9o6d2ntlnnppv4mbqk77kml.apps.googleusercontent.com",
+        scopes: ["profile", "email"],
+      });
 
-  const handleRedirectResult = async () => {
-    try {
-      const result = await firebase.auth().getRedirectResult();
-      if (result.user) {
-        console.log(result.user);
+      if (result.type === "success") {
+        const { idToken, accessToken } = result;
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          idToken,
+          accessToken
+        );
+        await firebase.auth().signInWithCredential(credential);
       }
     } catch (error) {
-      console.log(error);
+      console.log("Google Sign-In error:", error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-      />
-      <Button title="Login" onPress={handleGoogleSignIn} />
-      <Button title="Check redirect result" onPress={handleRedirectResult} />
+      <View style={styles.signInContainer}>
+        <Button title="Sign in with Google" onPress={handleGoogleSignIn} />
+      </View>
     </View>
   );
-};
-
-export default LoginScreen;
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
+  },
+  userContainer: {
+    alignItems: "center",
+  },
+  userText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  signInContainer: {
+    padding: 20,
   },
 });

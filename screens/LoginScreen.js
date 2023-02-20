@@ -20,6 +20,16 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+      if (user && user.displayName) {
+        navigation.navigate("Home");
+      }
+    });
+    return unsubscribe;
+  }, []);
+
   const handleSignUp = () => {
     firebase
       .auth()
@@ -42,7 +52,6 @@ export default function LoginScreen() {
         const user = userCredentials.user;
         setEmail("");
         setPassword("");
-        navigation.navigate("Home");
         console.log("Loggined in with: ", user.email);
       })
       .catch((error) => alert(error.message));
@@ -67,7 +76,6 @@ export default function LoginScreen() {
     } catch (error) {
       console.log("Google Sign-In error:", error);
     }
-    navigation.navigate("Home");
   };
 
   return (

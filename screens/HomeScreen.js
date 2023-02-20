@@ -10,9 +10,19 @@ const token =
   "3007~pk06pga4ouulN1dGIjmnFdCwfo9DpAJNxTTqlAFpMCKpzHYZALQNobl512KgOQhB";
 axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
+async function getCourses() {
+  try {
+    const response = await axios.get(`${apiUrl}/courses`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 async function getAssignments() {
   try {
-    const courseId = await getCourseId("Calculus AB-B (AP) - Chang, P");
+    const courseId = await getCourseId("Physics 1B (AP) - Elmasri, J");
     const response = await axios.get(
       `${apiUrl}/courses/${courseId}/announcements`
     );
@@ -70,6 +80,7 @@ export default function HomeScreen() {
       )}
       <Button title="Sign Out" onPress={handleSignOut} />
       <Button title="Get Assignments" onPress={handleClick} />
+      <Button title="Get Courses" onPress={getCourses} />
     </View>
   );
 }

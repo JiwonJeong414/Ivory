@@ -1,3 +1,4 @@
+import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 import LoginScreen from "./screens/LoginScreen";
@@ -5,6 +6,7 @@ import HomeScreen from "./screens/HomeScreen";
 import firebase from "./firebase"; // don't get rid (intializing firebase)
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import LoginScreen2 from "./screens/LoginScreen2";
 
 const Stack = createNativeStackNavigator();
 

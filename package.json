@@ -22,6 +22,7 @@
     "expo-status-bar": "~1.0.4",
     "expo-web-browser": "~9.2.0",
     "firebase": "8.2.3",
+    "google-auth-library": "^8.7.0",
     "react": "16.13.1",
     "react-native": "^0.63.4",
     "react-native-safe-area-context": "3.2.0",

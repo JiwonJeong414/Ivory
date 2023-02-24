@@ -31,9 +31,9 @@ async function getAssignments(courseName) {
   //   console.log(`Course with ID ${courseId} not found`);
   // }
   try {
-    const courseId = await getCourseId("U.S. History B (AP) - Harrington, J");
+    const courseId = await getCourseId("Calculus AB-B (AP) - Chang, P");
     const response = await axios.get(
-      `${apiUrl}/courses/${courseId}/announcements`
+      `${apiUrl}/courses/${courseId}/assignments`
     );
     return response.data;
   } catch (error) {
@@ -56,7 +56,10 @@ async function getCourseId(courseName) {
 // Example usage
 async function handleClick() {
   const assignments = await getAssignments();
-  console.log(assignments);
+  let array = assignments.map(function (item) {
+    return item["name"];
+  });
+  console.log(array);
 }
 
 export default function HomeScreen() {
@@ -83,8 +86,11 @@ export default function HomeScreen() {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-      console.log(response.data.courses);
-      return response.data.courses;
+      let array = response.data.courses.map(function (item) {
+        return item["courseGroupEmail"];
+      });
+      console.log(array);
+      return array;
     } catch (error) {
       console.error("Error retrieving courses", error);
       throw error;
@@ -117,6 +123,10 @@ export default function HomeScreen() {
     }
   };
 
+  const handleCamera = async () => {
+    navigation.navigate("Camera");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to the Home Screen!</Text>
@@ -129,6 +139,7 @@ export default function HomeScreen() {
       <Button title="Sign Out" onPress={handleSignOut} />
       <Button title="Get Assignments" onPress={handleClick} />
       <Button title="Get Courses" onPress={() => getCourses()} />
+      <Button title="Camera" onPress={handleCamera} />
     </View>
   );
 }

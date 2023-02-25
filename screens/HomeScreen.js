@@ -10,32 +10,49 @@ const apiUrl = "https://iusd.instructure.com/api/v1";
 const token =
   "3007~pk06pga4ouulN1dGIjmnFdCwfo9DpAJNxTTqlAFpMCKpzHYZALQNobl512KgOQhB";
 
-// async function getCourses() {
-//   try {
-//     const response = await axios.get(`${apiUrl}/courses`);
-//     console.log(response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
+async function getAllCourses() {
+  try {
+    let courses = [];
+    let page = 1;
+    let response = await axios.get(
+      `${apiUrl}/courses?per_page=100&page=${page}`
+    );
+    courses = courses.concat(response.data);
+    while (response.data.length === 100) {
+      page++;
+      response = await axios.get(`${apiUrl}/courses?per_page=100&page=${page}`);
+      courses = courses.concat(response.data);
+    }
+    console.log(
+      courses
+        .filter((course) => course.name !== undefined)
+        .map((course) => course.name)
+    );
+    return courses
+      .filter((course) => course.name !== undefined)
+      .map((course) => course.name);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 async function getAssignments(courseName) {
-  // const courseId = 69362; // Replace with the desired course ID
-  // let courses = await getCourses();
-  // const course = courses.find((c) => c.id === courseId);
-  // if (course) {
-  //   const courseName = course.name;
-  //   console.log(courseName);
-  // } else {
-  //   console.log(`Course with ID ${courseId} not found`);
-  // }
   try {
     const courseId = await getCourseId("Calculus AB-B (AP) - Chang, P");
-    const response = await axios.get(
-      `${apiUrl}/courses/${courseId}/assignments`
+    let assignments = [];
+    let page = 1;
+    let response = await axios.get(
+      `${apiUrl}/courses/${courseId}/assignments?per_page=100&page=${page}`
     );
-    return response.data;
+    assignments = assignments.concat(response.data);
+    while (response.data.length === 100) {
+      page++;
+      response = await axios.get(
+        `${apiUrl}/courses/${courseId}/assignments?per_page=100&page=${page}`
+      );
+      assignments = assignments.concat(response.data);
+    }
+    return assignments;
   } catch (error) {
     console.error(error);
   }
@@ -138,7 +155,8 @@ export default function HomeScreen() {
       )}
       <Button title="Sign Out" onPress={handleSignOut} />
       <Button title="Get Assignments" onPress={handleClick} />
-      <Button title="Get Courses" onPress={() => getCourses()} />
+      <Button title="Get Canvas Courses" onPress={getAllCourses} />
+      <Button title="Get Classroom Courses" onPress={() => getCourses()} />
       <Button title="Camera" onPress={handleCamera} />
     </View>
   );

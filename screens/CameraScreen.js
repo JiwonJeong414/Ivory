@@ -82,7 +82,6 @@ export default function CameraScreen() {
     );
     let responseJson = await response.json();
     const textAnnotations = responseJson.responses[0].fullTextAnnotation;
-    console.log(textAnnotations);
     const extractedText = textAnnotations && textAnnotations.text;
     setExtractedText(extractedText);
   };
@@ -92,11 +91,6 @@ export default function CameraScreen() {
       {imageUri && <Image style={styles.image} source={{ uri: imageUri }} />}
       {extractedText && <Text style={styles.text}>{extractedText}</Text>}
       <Button title="Select Image" onPress={handleImagePicker} />
-      <Button
-        style={{ marginBottom: 10 }}
-        onPress={extractTextFromImage}
-        title="Analyze!"
-      />
     </View>
   );
 }

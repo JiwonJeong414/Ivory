@@ -24,7 +24,7 @@ export default function LoginScreen() {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       setUser(user);
       if (user && user.displayName) {
-        navigation.navigate("Home");
+        navigation.navigate("Initialize");
       }
     });
     return unsubscribe;

@@ -3,7 +3,7 @@ import React from "react";
 
 const ProfileScreen = () => {
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: "#fdf8e8" }}>
       <Text>ProfileScreen</Text>
     </View>
   );

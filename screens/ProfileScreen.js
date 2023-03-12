@@ -10,7 +10,7 @@ import Animated, {
 
 const SIZE = 100.0;
 
-const handleRotation = (progress: Animated.SharedValue<number>) => {
+const handleRotation = (progress) => {
   "worklet";
 
   return `${progress.value * 2 * Math.PI}rad`;

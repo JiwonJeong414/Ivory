@@ -20,6 +20,7 @@ import InitializeScreen from "./screens/InitializeScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import { moderateScale } from "react-native-size-matters";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -66,12 +67,6 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           extrapolate: "clamp",
         });
 
-        const borderScale = animation.interpolate({
-          inputRange: [index - 1, index, index + 1],
-          outputRange: [1, 1.5, 1],
-          extrapolate: "clamp",
-        });
-
         return (
           <TouchableOpacity
             key={index}
@@ -85,15 +80,20 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
             >
               <MaterialCommunityIcons
                 name="hexagon"
-                style={{ alignItems: "center" }}
-                size={50}
-                color={isFocused ? "#e91e63" : "#fdf8e8"}
+                style={{
+                  alignItems: "center",
+                  shadowOpacity: 0.6,
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowRadius: 2,
+                }}
+                size={moderateScale(50)}
+                color={isFocused ? "#cdd3d5" : "transparent"}
               ></MaterialCommunityIcons>
               <View style={{ position: "absolute", left: 10, top: 10 }}>
                 <MaterialCommunityIcons
                   name={options.tabBarIcon}
-                  size={30}
-                  color={isFocused ? "black" : "#ccc"}
+                  size={moderateScale(32)}
+                  color={isFocused ? "#75b8c8" : "#6c7a89"}
                 />
               </View>
             </Animated.View>
@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
   },
   tabBarButton: {
     flex: 1,
+    bottom: moderateScale(10),
     alignItems: "center",
     paddingVertical: 10,
   },

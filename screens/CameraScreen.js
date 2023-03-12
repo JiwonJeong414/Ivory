@@ -8,12 +8,15 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
 import uuid from "react-native-uuid";
+import { useNavigation } from "@react-navigation/native";
 
 const GOOGLE_CLOUD_VISION_API_KEY = "AIzaSyAklSmL7qNTvlC5p1GfbtiuI10QyteWb5c";
 const VISION_API_URL =
   "https://vision.googleapis.com/v1/images:annotate?key=${AIzaSyAklSmL7qNTvlC5p1GfbtiuI10QyteWb5c}";
 
 export default function CameraScreen() {
+  const navigation = useNavigation();
+
   const state = {
     image: null,
     uploading: false,
@@ -86,11 +89,16 @@ export default function CameraScreen() {
     setExtractedText(extractedText);
   };
 
+  const handleBack = () => {
+    navigation.navigate("Home");
+  };
+
   return (
     <View style={styles.container}>
       {imageUri && <Image style={styles.image} source={{ uri: imageUri }} />}
       {extractedText && <Text style={styles.text}>{extractedText}</Text>}
       <Button title="Select Image" onPress={handleImagePicker} />
+      <Button title="Back" onPress={handleBack} />
     </View>
   );
 }

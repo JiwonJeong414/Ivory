@@ -10,6 +10,20 @@ const apiUrl = "https://iusd.instructure.com/api/v1";
 const token =
   "3007~pk06pga4ouulN1dGIjmnFdCwfo9DpAJNxTTqlAFpMCKpzHYZALQNobl512KgOQhB";
 
+function getStudentGrades(apiEndpoint, schoolCode, studentId) {
+  // Construct the API endpoint URL with the required parameters
+  const gradesEndpoint = `/api/v5/schools/600/gpas/118150163`;
+
+  // Make the API call
+  return fetch(gradesEndpoint)
+    .then((response) => response.json())
+    .then((data) => {
+      // Return the student's grades
+      console.log(data);
+      return data;
+    });
+}
+
 async function getAllCourses() {
   try {
     let courses = [];

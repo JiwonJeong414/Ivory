@@ -122,7 +122,7 @@ const InitializeScreen = () => {
     // temp Access Token
     // ToDo: Oauth2.0 method
     const token =
-      "3007~pk06pga4ouulN1dGIjmnFdCwfo9DpAJNxTTqlAFpMCKpzHYZALQNobl512KgOQhB";
+      "3007~JThXajyc3PTS2WLwWADizCNRQqjz8CXj21EK1bb25aI20crtRFoRUwBLJTVWEqBY";
     await AsyncStorage.setItem("CanvasToken", token);
     return token;
   };
